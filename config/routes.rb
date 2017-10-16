@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show]
 
-  get "/auth/:provider/callback", to: "sessions#create"
+  get "/auth/:provider/callback", to: "sessions#login"
   #make : to provider -- creating a params
   #this is not a RESTful route
 end
