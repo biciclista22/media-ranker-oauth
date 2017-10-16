@@ -4,8 +4,9 @@ class SessionsController < ApplicationController
     auth_hash = request.env['omniauth.auth']
 
     if auth_hash['uid']
-      @user = User.find_by(uid: auth_hash[:uid], provider: 'github')
-      if @user.nil?
+      user = User.find_by(provider: params[:provider], uid: auth_hash[:uid])
+      if user.nil?
+        user.from_auth_hash(provider, auth_hash)
         #user doesn't match anything in DB and attempt to create new user
       else
         flash[:success] = "Logged in successfully"
