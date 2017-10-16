@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
   # skip_before_action :require_login, only: [:login]
 
   def login
+
     auth_hash = request.env['omniauth.auth']
     # ap @auth_hash
     if auth_hash['uid']
@@ -11,7 +12,7 @@ class SessionsController < ApplicationController
         save_and_flash(user)
       else
         flash[:status] = :success
-        flash[:mesage] = "Successfully logged in as returning user #{user.name}"
+        flash[:message] = "Successfully logged in as returning user #{user.name}"
       end
 
       #will log the user in
@@ -28,7 +29,7 @@ class SessionsController < ApplicationController
   def logout
     session[:user_id] = nil
     flash[:status] = :success
-    flash[:message] = "You have been logged out"
+    flash[:message] = "You have successfully logged out"
     redirect_to root_path
   end #logout
 
