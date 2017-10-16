@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   validates :username, uniqueness: true, presence: true
 
-  def from_auth_hash(provider, auth_hash)
+  def self.from_auth_hash(provider, auth_hash)
     user = new
     user.provider = provider
     user.uid = auth_hash['uid']
