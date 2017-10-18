@@ -22,7 +22,9 @@ class WorksController < ApplicationController
 
   def create
     @work = Work.new(media_params)
+    @work.user_id = session[:user_id]
     @media_category = @work.category
+
     if @work.save
       flash[:status] = :success
       flash[:result_text] = "Successfully created #{@media_category.singularize} #{@work.id}"
@@ -40,10 +42,19 @@ class WorksController < ApplicationController
   end
 
   def edit
+    @work = Work.find_by(id: params[:id])
+    if @work.user_id != session[:user_id]
+      flash[:status] = :failure
+      flash[:result_text] = "You are not authorized to edit this work"
+      redirect_to work_path(@work)
+      return
+    end
   end
 
   def update
+
     @work.update_attributes(media_params)
+
     if @work.save
       flash[:status] = :success
       flash[:result_text] = "Successfully updated #{@media_category.singularize} #{@work.id}"
@@ -57,6 +68,13 @@ class WorksController < ApplicationController
   end
 
   def destroy
+    if @work.user_id != session[:user_id]
+      flash[:status] = :failure
+      flash[:result_text] = "You are not authorized to delete this work"
+      redirect_to work_path(@work)
+      return
+    end
+
     @work.destroy
     flash[:status] = :success
     flash[:result_text] = "Successfully destroyed #{@media_category.singularize} #{@work.id}"
@@ -90,7 +108,7 @@ class WorksController < ApplicationController
     redirect_back fallback_location: work_path(@work), status: status
   end
 
-private
+  private
   def media_params
     params.require(:work).permit(:title, :category, :creator, :description, :publication_year)
   end
