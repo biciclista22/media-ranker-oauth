@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
         save_and_flash(user)
       else
         flash[:status] = :success
-        flash[:message] = "Successfully logged in as returning user #{user.name}"
+        flash[:result_text] = "Successfully logged in as returning user #{user.name}"
       end
 
       #will log the user in
@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
 
     else
       flash[:status] = :failure
-      flash[:message] = "Could not create user from OAuth process"
+      flash[:result_text] = "Could not create user from OAuth process"
     end
 
     redirect_to root_path
@@ -29,7 +29,7 @@ class SessionsController < ApplicationController
   def logout
     session[:user_id] = nil
     flash[:status] = :success
-    flash[:message] = "You have successfully logged out"
+    flash[:result_text] = "You have successfully logged out"
     redirect_to root_path
   end #logout
 
