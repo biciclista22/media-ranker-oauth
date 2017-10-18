@@ -52,7 +52,7 @@ class WorksController < ApplicationController
   end
 
   def update
-
+m
     @work.update_attributes(media_params)
 
     if @work.save
