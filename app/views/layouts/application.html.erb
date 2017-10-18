@@ -33,14 +33,14 @@
     </nav>
   </header>
 
-  <% if flash[:result_text] or flash[:message]  %>
+  <% if flash[:result_text] or flash[:messages]  %>
     <section class="row status <%= flash[:status] %>">
       <h3><%= flash[:status] == :failure ? "A problem occurred: " : "" %><%= flash[:result_text] %></h3>
-      <% if flash[:message] %>
+      <% if flash[:messages] %>
         <ul>
-          <%# flash[:message].each do |message| %>
-            <%# problems.each do |problem| %>
-              <li><%= flash[:message] %> <%# problem %></li>
+          <%= flash[:messages].each do |name, problem| %>
+            <%= problems.each do |problem| %>
+              <li><%= name %>: <%= problem %></li>
             <% end %>
           <%# end %>
         </ul>
